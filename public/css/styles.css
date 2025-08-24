@@ -1,0 +1,105 @@
+body {
+    background-color: pink;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container {
+    flex: 1;
+}
+.navbar {
+    height: 5rem;
+    background-color: white;
+}
+
+.fa-compass {
+    color: #b02929;
+    font-size: 2rem;
+}
+
+.nav-link {
+    font-size: 1.2rem;
+    color: #222222 !important;
+}
+
+.f-info-links a {
+    color: #222222 !important;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+.f-info-social i {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.f-info-links,
+.f-info-social,
+.f-info-brand {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.f-info {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 8rem;
+    background-color: #f8f9fa;
+}
+
+.card {
+    margin: 0 !important;
+    margin-bottom: 2rem;
+}
+
+
+.card-img-top {
+    border-radius: 1rem;
+    object-fit: cover;   /* crop instead of stretching */
+    height: 200px;       /* fixed height for uniform cards */
+    width: 100%;         /* full width */
+}
+.show-img {
+    height: auto;           /* keep natural height */
+    max-height: 500px;      /* prevent it from being too tall */
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+
+.card-body {
+    padding: 0 !important;
+}
+
+.card-img-overlay {
+    opacity: 0;
+}
+
+.card:hover .card-img-overlay {
+    opacity: 0.4;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.new-btn {
+    background-color: #b02929 !important;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+
+}
+.edit-btn {
+    background-color: #b02929 !important;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+
+}
+
