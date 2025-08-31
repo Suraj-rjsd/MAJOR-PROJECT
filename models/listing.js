@@ -18,10 +18,17 @@ const listingSchema = new Schema({
       default: "default.jpg"
     }
   },
-  reviews:[{
+  reviews: [{
     type: Schema.Types.ObjectId,
     ref: "Review"
-  }]
+  }],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
+  
+  
+
 });
 
 listingSchema.pre("save", function (next) {

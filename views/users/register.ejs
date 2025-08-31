@@ -1,0 +1,38 @@
+<% layout("/layouts/boilerplate") %>
+<%- include('../includes/flash') %>
+
+<h1 class="col-6 offset-3">Register</h1>
+
+<div class="row mt-3">
+  <div class="col-6 offset-3">
+
+    <form action="/register" method="post" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please choose a username.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please enter a valid email.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Please enter a password.</div>
+      </div>
+
+      <div class="d-flex">
+        <button type="submit" class="btn btn-dark register-btn">Register</button>
+        <a href="/" class="btn btn-secondary ms-2">Cancel</a>
+      </div>
+    </form>
+
+  </div>
+</div>

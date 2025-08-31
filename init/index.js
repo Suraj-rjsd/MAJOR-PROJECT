@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Listing = require('../listing.js');
-const initdata = require('./data.js').data; // Access the array directly
-
+const Listing = require('../models/listing.js');
+const initdata = require('./data.js').data; 
 
 main().then(() => {
     console.log('Connected to MongoDB');
@@ -15,10 +14,15 @@ async function main() {
 
 const initDB = async () => {
     await Listing.deleteMany({});
-    await Listing.insertMany(initdata);
-    console.log('Initial data inserted:');
+
+   
+    const dataWithOwner = initdata.map(obj => ({
+        ...obj,
+        owner: '68ae19604e9dd03f70abbeac' 
+    }));
+
+    await Listing.insertMany(dataWithOwner);
+    console.log('Initial data inserted!');
 };
- initDB(); // Call here after definition
 
-
-
+initDB(); //

@@ -2,95 +2,35 @@ const express = require('express');
 const router = express.Router();
 const Listing = require('../models/listing');
 const ExpressErrors = require("../utils/ExpressErrors.js");
-const { listingSchema } = require("../listingSchema.js");
+const { isSignedIn, isOwner, validateListing } = require("../middleware.js");
+const listingController = require("../controllers/listings.js");
 
-// Middleware: validate listing
-const validateListing = (req, res, next) => {
-    const { error } = listingSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressErrors(400, msg);
-    }
-    next();
-};
+const { storage } = require("../cloudConfig.js");
+const multer = require('multer');
+const upload = multer({ storage });
+
+
+
 
 // Index
-router.get('/', async (req, res, next) => {
-    try {
-        const allListings = await Listing.find({});
-        res.render('listings/index', { listings: allListings });
-    } catch (err) {
-        next(err);
-    }
-});
+router.get('/', listingController.index);
 
-// New
-router.get('/new', (req, res) => {
-    res.render('listings/new');
-});
+// New 
+router.get('/new', isSignedIn, listingController.new);
 
 // Show
-router.get("/:id", async (req, res, next) => {
-  try {
-    const listing = await Listing.findById(req.params.id)
-      .populate("reviews");
-    if (!listing) throw new ExpressErrors(404, "Listing not found");
-    res.render("listings/show", { listing });
-  } catch (err) {
-    next(err);
-  }
-});
+router.get("/:id", listingController.show);
 
+// Create 
+router.post('/', isSignedIn,upload.single('listing[image][url]'), validateListing,  listingController.create);
 
-
-// Create
-router.post('/', validateListing, async (req, res, next) => {
-    try {
-        const newListing = new Listing(req.body.listing);
-        await newListing.save();
-        res.redirect('/listings');
-    } catch (err) {
-        next(err);
-    }
-});
-
-// Edit
-router.get('/:id/edit', async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const listing = await Listing.findById(id);
-        if (!listing) throw new ExpressErrors(404, "Listing not found");
-        res.render('listings/edit', { listing });
-    } catch (err) {
-        next(err);
-    }
-});
+// Edit 
+router.get('/:id/edit', isSignedIn, isOwner, listingController.edit);
 
 // Update
-router.put('/:id', validateListing, async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const updatedListing = await Listing.findByIdAndUpdate(
-            id,
-            req.body.listing,
-            { new: true, runValidators: true }
-        );
-        if (!updatedListing) throw new ExpressErrors(404, "Listing not found");
-        res.redirect(`/listings/${updatedListing._id}`);
-    } catch (err) {
-        next(err);
-    }
-});
+router.put('/:id', isSignedIn, isOwner,upload.single('listing[image][url]'), validateListing, listingController.update);
 
 // Delete
-router.delete('/:id', async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        await Listing.findByIdAndDelete(id);
-        res.redirect('/listings');
-    } catch (err) {
-        next(err);
-    }
-});
+router.delete('/:id', isSignedIn, isOwner,);
 
 module.exports = router;
